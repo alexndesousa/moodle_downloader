@@ -18,7 +18,7 @@ with requests.Session() as s:
     course_titles = home.select('.course-list.container-fluid .row.courseovbox.lead div strong a')
     hrefs = [(tag['href'], tag.get_text()) for tag in course_titles]
 
-    for (course_page, course_title) in hrefs[4:]:
+    for (course_page, course_title) in hrefs:
         page = s.get(course_page)
         page.raise_for_status()
         soup_page = bs4.BeautifulSoup(page.text, features='html.parser')
@@ -69,10 +69,7 @@ with requests.Session() as s:
                     extension = '.html'
                 elif header == 'x-tex':
                     extension = '.tex'
-                # else:
-                #     print(file_name)
-                print(file_name)
-                print(pre_download_link.headers['content-type'])
+
                 file_re = re.compile(r'[/?<>\\:*|\"]')
                 file_name = re.sub(file_re, '-', file_name)
 
